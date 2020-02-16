@@ -8,6 +8,9 @@ const TYPE_NOT = "NOT"
 const TYPE_XOR = "XOR"
 
 //used for drawing
+const NODE_WIDTH = 50
+const NODE_HEIGHT = 50
+const NODE_SEP = 3
 
 class Node {
   constructor(type, label = null, value = null) {
@@ -22,13 +25,13 @@ class Node {
     }
     return this
   }
-  // visit(func) {
-  //   // this is a preorder traversal
-  //   func(this)
-  //   for (let i = 0; i < this.children.length; i++) {
-  //     this.children[i].visit(func)
-  //   }
-  // }
+  visit(func) {
+    // this is a preorder traversal
+    func(this)
+    for (let i = 0; i < this.children.length; i++) {
+      this.children[i].visit(func)
+    }
+  }
   addchild(node) {
     if (this.children != null) {
       this.children.push(node)
