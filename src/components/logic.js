@@ -16,6 +16,7 @@ class Node {
 
     if (type !== TYPE_INPUT) {
       this.children = []
+      this.label = type
     } else {
       this.children = null
       this.label = label
@@ -37,7 +38,7 @@ class Node {
   }
 }
 function build_tree(text) {
-  // builds a tree from a string of text
+  text = preprocess(text) // builds a tree from a string of text
   // Arguments:
   //     txt {str} -- the text to be processed
   // Returns:
@@ -140,7 +141,11 @@ function calc_result(tree, values) {
     case TYPE_NOT:
       return !child_values[0]
     case TYPE_XOR:
-      return child_values[0] ^ child_values[1]
+      // return child_values[0] ^ child_values[1]
+      return (
+        (child_values[0] && !child_values[1]) ||
+        (child_values[1] && !child_values[0])
+      )
     default:
       return console.log("An error occured")
   }
@@ -219,6 +224,7 @@ function getsubexp(start, str) {
 
 function getresult(input) {
   let output = []
+  input = preprocess(input)
   var [test, vars] = build_tree(input)
   let p = generate_permutations(vars)
   for (let index = 0; index < p.length; index++) {
@@ -226,10 +232,22 @@ function getresult(input) {
     // let current = element
     element["output"] = calc_result(test, element)
     output.push(element)
-    console.log(element)
+    // console.log(element)
     // console.log(calc_result(test, element));
   }
   return output
 }
-
-export {getresult}
+function preprocess(str) {
+  // var str = "Mr Blue has a blue house and a blue car"
+  //¬!~
+  const pre = str.replace(/[¬!~][¬!~]/gi, "")
+  const tmp = pre.replace(/[a-zA-Z0-9)][a-zA-Z0-9(]/gi, function(x) {
+    return x[0] + "." + x[1]
+  })
+  // console.log(tmp)
+  return tmp.replace(/[a-zA-Z0-9)][a-zA-Z0-9(]/gi, function(x) {
+    return x[0] + "." + x[1]
+  })
+  //find
+}
+export {getresult, build_tree}

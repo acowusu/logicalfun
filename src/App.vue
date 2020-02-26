@@ -1,7 +1,17 @@
 <template>
   <div id="app">
     <b-container>
-      <b-jumbotron header="Logica" lead="enter a logical statement">
+      <!-- <b-form-checkbox v-model="dark" inline>Dark</b-form-checkbox> -->
+
+      <b-jumbotron header="Logical fun" lead="enter a logical statement">
+        <b-button
+          onclick="TogetherJS(this); return false;"
+          pill
+          variant="outline-secondary"
+        >Start Sharing</b-button>
+
+        <br />
+        <!-- <button class="btn btn-success">Start Shareing</button> -->
         <img width="25%" src="./assets/logo.png" />
         <pre><code>
           instructions:
@@ -12,21 +22,22 @@
           NOT ¬ ! ~
           XOR ^ ⊕ *
           brackets an be used to control order of operation
-          Note: implicit and is not supported
+          Note: double negation is not supported
           </code></pre>
-        <HelloWorld msg="Hello Vue in CodeSandbox!" />
+
+        <MainPage />
       </b-jumbotron>
     </b-container>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld";
+import MainPage from "./components/MainPage";
 
 export default {
   name: "App",
   components: {
-    HelloWorld
+    MainPage
   }
 };
 </script>
